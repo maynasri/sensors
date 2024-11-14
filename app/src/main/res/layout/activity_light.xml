@@ -7,6 +7,14 @@
     android:gravity="center"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/brightnessImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_night"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="Icône de luminosité" />
+
     <TextView
         android:id="@+id/brightnessLabel"
         android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.example.sensors;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -69,9 +70,8 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             // Calculer le pourcentage de luminosité
             int brightnessPercentage = (int) ((lux / MAX_LUX) * 100);
             brightnessPercentage = Math.min(brightnessPercentage, 100); // Limiter à 100%
-
             // Afficher le pourcentage de luminosité
-            brightnessTextView.setText("Luminosité : " + brightnessPercentage + "%");
+            brightnessTextView.setText("Luminosité : "  + brightnessPercentage + "%");
             brightnessProgressBar.setProgress(brightnessPercentage);
 
             // Changer le thème selon le niveau de luminosité
@@ -80,6 +80,7 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
                 mainLayout.setBackgroundColor(Color.parseColor("#121212")); // Couleur sombre
                 brightnessTextView.setTextColor(Color.parseColor("#FFFFFF")); // Texte clair
                 brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_blue_light));
+
             } else if (brightnessPercentage >= 30 && brightnessPercentage < 70) {
                 // Mode idéal
                 mainLayout.setBackgroundColor(Color.parseColor("#FFDD94")); // Couleur douce
