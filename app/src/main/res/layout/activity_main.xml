@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:gravity="center">
 
-    <!-- Titre de l'application -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Authentification Biométrique"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Bouton pour lancer l'authentification biométrique -->
     <Button
-        android:id="@+id/biometricLoginBtn"
+        android:id="@+id/faceRecognitionLoginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Se connecter avec la biométrie"
-        android:padding="12dp"
-        android:backgroundTint="#F44336"
-        android:textColor="@android:color/white" />
-
+        android:text="Login with Face Recognition" />
 </LinearLayout>

@@ -14,6 +14,8 @@ import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
     private Executor executor;
 
     @Override
@@ -21,103 +23,73 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Définir un exécuteur
         executor = ContextCompat.getMainExecutor(this);
 
-        // Associer le bouton à l'événement d'authentification biométrique
-        Button biometricLoginButton = findViewById(R.id.biometricLoginBtn);
-        biometricLoginButton.setOnClickListener(v -> {
-            BiometricManager biometricManager = BiometricManager.from(this);
+        // Initialiser le BiometricPrompt
+        biometricPrompt = new BiometricPrompt(this, executor,
+                new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        Toast.makeText(getApplicationContext(),
+                                        "Erreur d'authentification : " + errString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
-            // Vérifier si l'empreinte digitale est disponible
-            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-                    == BiometricManager.BIOMETRIC_SUCCESS) {
-                // Empreinte digitale est disponible
-                authenticateWithFingerprint();
-            }
-            // Vérifier si la reconnaissance faciale est disponible
-            else if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
-                    == BiometricManager.BIOMETRIC_SUCCESS) {
-                // Reconnaissance faciale est disponible
-                authenticateWithFaceRecognition();
-            } else {
-                Toast.makeText(this, "Aucune méthode biométrique disponible.", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        Log.d("Biometric", "Authentication succeeded! Starting LightActivity...");
+                        try {
+                            Intent intent = new Intent(MainActivity.this, LightActivity.class);
+                            startActivity(intent);
+                            Toast.makeText(getApplicationContext(), "Authentification avec succès!", Toast.LENGTH_SHORT).show();
+
+                            // Utiliser un délai pour finir MainActivity après l'ouverture de LightActivity
+                            new Handler().postDelayed(() -> finish(), 100);  // Délai de 100ms
+                        } catch (Exception e) {
+                            Log.e("Biometric", "Error starting LightActivity: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        Toast.makeText(getApplicationContext(), "Authentification échouée",
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
+        // Créer les informations de l'invite (le message à afficher à l'utilisateur)
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Authentification biométrique")
+                .setSubtitle("Choisissez la méthode d'authentification biométrique disponible ")
+                .setNegativeButtonText("Annuler")
+                .build();
+
+        // Associer le bouton à l'événement d'authentification par reconnaissance faciale
+        Button faceRecognitionLoginButton = findViewById(R.id.faceRecognitionLoginBtn);
+        faceRecognitionLoginButton.setOnClickListener(v -> {
+            BiometricManager biometricManager = BiometricManager.from(this);
+            switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+                case BiometricManager.BIOMETRIC_SUCCESS:
+                    // L'authentification par reconnaissance faciale peut être lancée
+                    biometricPrompt.authenticate(promptInfo);
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                    Toast.makeText(this, "No facial recognition hardware available", Toast.LENGTH_SHORT).show();
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                    Toast.makeText(this, "Facial recognition hardware is currently unavailable", Toast.LENGTH_SHORT).show();
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                    Toast.makeText(this, "No face recognition data enrolled. Please set up face recognition in settings", Toast.LENGTH_SHORT).show();
+                    break;
             }
         });
-    }
-
-    // Méthode pour authentifier par empreinte digitale
-    private void authenticateWithFingerprint() {
-        // Créer un nouveau BiometricPrompt pour l'empreinte digitale
-        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
-                new BiometricPrompt.AuthenticationCallback() {
-                    @Override
-                    public void onAuthenticationError(int errorCode, CharSequence errString) {
-                        super.onAuthenticationError(errorCode, errString);
-                        Toast.makeText(getApplicationContext(),
-                                "Erreur d'authentification : " + errString, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
-                        super.onAuthenticationSucceeded(result);
-                        startActivity(new Intent(MainActivity.this, LightActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                        Toast.makeText(getApplicationContext(), "Échec de l'authentification", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        // Créer PromptInfo spécifique à l'empreinte digitale
-        BiometricPrompt.PromptInfo fingerprintPromptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Authentification par empreinte digitale")
-                .setSubtitle("Utilisez votre empreinte digitale pour vous authentifier")
-                .setDescription("Placez votre doigt sur le capteur.")
-                .setNegativeButtonText("Annuler")
-                .build();
-
-        // Lancer l'authentification
-        biometricPrompt.authenticate(fingerprintPromptInfo);
-    }
-
-    // Méthode pour authentifier par reconnaissance faciale
-    private void authenticateWithFaceRecognition() {
-        // Créer un nouveau BiometricPrompt pour la reconnaissance faciale
-        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
-                new BiometricPrompt.AuthenticationCallback() {
-                    @Override
-                    public void onAuthenticationError(int errorCode, CharSequence errString) {
-                        super.onAuthenticationError(errorCode, errString);
-                        Toast.makeText(getApplicationContext(),
-                                "Erreur d'authentification : " + errString, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
-                        super.onAuthenticationSucceeded(result);
-                        startActivity(new Intent(MainActivity.this, LightActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                        Toast.makeText(getApplicationContext(), "Échec de l'authentification", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        // Créer PromptInfo spécifique à la reconnaissance faciale
-        BiometricPrompt.PromptInfo faceRecognitionPromptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Authentification par reconnaissance faciale")
-                .setSubtitle("Utilisez votre visage pour vous authentifier")
-                .setDescription("Positionnez votre visage devant la caméra.")
-                .setNegativeButtonText("Annuler")
-                .build();
-
-        // Lancer l'authentification
-        biometricPrompt.authenticate(faceRecognitionPromptInfo);
     }
 }
