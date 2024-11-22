@@ -4,11 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#D3D3D3"
+    >
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/authentication"
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/faceRecognitionLoginBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="164dp"
         android:layout_height="wrap_content"
-        android:text="Login with Face Recognition" />
+        android:layout_margin="16dp"
+        android:backgroundTint="#801F2760"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:text="Se connecter"
+        android:textColor="#FFFF"
+        android:textStyle="bold" />
 </LinearLayout>

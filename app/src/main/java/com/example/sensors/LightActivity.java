@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,6 +61,10 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
         // Désenregistrer le listener pour économiser de la batterie
         sensorManager.unregisterListener(this);
     }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Méthode requise pour l'interface SensorEventListener, mais non utilisée ici
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -71,32 +76,25 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             int brightnessPercentage = (int) ((lux / MAX_LUX) * 100);
             brightnessPercentage = Math.min(brightnessPercentage, 100); // Limiter à 100%
             // Afficher le pourcentage de luminosité
-            brightnessTextView.setText("Luminosité : "  + brightnessPercentage + "%");
+            brightnessTextView.setText("Luminosité : " + brightnessPercentage + "%");
             brightnessProgressBar.setProgress(brightnessPercentage);
-
-            // Changer le thème selon le niveau de luminosité
             if (brightnessPercentage < 30) {
                 // Mode nuit
-                mainLayout.setBackgroundColor(Color.parseColor("#121212")); // Couleur sombre
-                brightnessTextView.setTextColor(Color.parseColor("#FFFFFF")); // Texte clair
+                mainLayout.setBackgroundResource(R.drawable.night);
                 brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_blue_light));
 
             } else if (brightnessPercentage >= 30 && brightnessPercentage < 70) {
                 // Mode idéal
-                mainLayout.setBackgroundColor(Color.parseColor("#FFDD94")); // Couleur douce
-                brightnessTextView.setTextColor(Color.parseColor("#333333")); // Texte foncé
+                mainLayout.setBackgroundResource(R.drawable.afternoon);
                 brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_orange_dark));
+
             } else {
                 // Mode lumière du jour
-                mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF")); // Couleur claire
-                brightnessTextView.setTextColor(Color.parseColor("#000000")); // Texte foncé
+                mainLayout.setBackgroundResource(R.drawable.morning);
                 brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_orange_light));
             }
         }
-    }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Méthode requise pour l'interface SensorEventListener, mais non utilisée ici
+
     }
 }
