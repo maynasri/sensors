@@ -10,9 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LightActivity extends AppCompatActivity implements SensorEventListener {
@@ -20,27 +18,24 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private TextView brightnessTextView;
-    private ProgressBar brightnessProgressBar;
+    private HalfCircleProgressBar halfCircleProgressBar;
     private LinearLayout mainLayout;
-    private final float MAX_LUX = 10000; // Valeur de référence maximale de luminosité en lux
+    private final float MAX_LUX = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_light);
 
-        // Initialisation des éléments de l'interface utilisateur
         brightnessTextView = findViewById(R.id.brightnessTextView);
-        brightnessProgressBar = findViewById(R.id.brightnessProgressBar);
+        halfCircleProgressBar = findViewById(R.id.halfCircleProgressBar);
         mainLayout = findViewById(R.id.LightLayout);
 
-        // Initialisation du gestionnaire de capteurs
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         }
 
-        // Vérification de la disponibilité du capteur
         if (lightSensor == null) {
             brightnessTextView.setText("Capteur de luminosité non disponible.");
         }
@@ -61,9 +56,9 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
         // Désenregistrer le listener pour économiser de la batterie
         sensorManager.unregisterListener(this);
     }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Méthode requise pour l'interface SensorEventListener, mais non utilisée ici
     }
 
     @Override
@@ -75,26 +70,23 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             // Calculer le pourcentage de luminosité
             int brightnessPercentage = (int) ((lux / MAX_LUX) * 100);
             brightnessPercentage = Math.min(brightnessPercentage, 100); // Limiter à 100%
+
             // Afficher le pourcentage de luminosité
             brightnessTextView.setText("Luminosité : " + brightnessPercentage + "%");
-            brightnessProgressBar.setProgress(brightnessPercentage);
+            halfCircleProgressBar.setProgress(brightnessPercentage);
+
             if (brightnessPercentage < 30) {
                 // Mode nuit
-                mainLayout.setBackgroundResource(R.drawable.night);
-                brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_blue_light));
+                mainLayout.setBackgroundResource(R.drawable.nightwindow);
 
             } else if (brightnessPercentage >= 30 && brightnessPercentage < 70) {
                 // Mode idéal
-                mainLayout.setBackgroundResource(R.drawable.afternoon);
-                brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_orange_dark));
+                mainLayout.setBackgroundResource(R.drawable.day);
 
             } else {
                 // Mode lumière du jour
                 mainLayout.setBackgroundResource(R.drawable.morning);
-                brightnessProgressBar.setProgressTintList(getResources().getColorStateList(android.R.color.holo_orange_light));
             }
         }
-
-
     }
 }
