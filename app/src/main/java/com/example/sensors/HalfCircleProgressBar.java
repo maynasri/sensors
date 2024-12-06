@@ -12,6 +12,7 @@ public class HalfCircleProgressBar extends View {
     private Paint paint;
     private int progress = 0;  // Valeur de progression entre 0 et 100
     private int maxProgress = 100;
+    private int progressColor = Color.parseColor("#801F2760"); // Couleur par défaut de la barre de progression
 
     public HalfCircleProgressBar(Context context) {
         super(context);
@@ -43,6 +44,12 @@ public class HalfCircleProgressBar extends View {
         }
     }
 
+    // Méthode pour changer la couleur de la barre de progression
+    public void setProgressColor(int color) {
+        this.progressColor = color;
+        invalidate(); // Re-dessiner la vue avec la nouvelle couleur
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -56,8 +63,8 @@ public class HalfCircleProgressBar extends View {
         paint.setColor(Color.LTGRAY);
         canvas.drawArc(20, 20, width - 20, height - 20, 180, 180, false, paint);
 
-        // Dessiner la barre de progression
-        paint.setColor(Color.parseColor("#FFA726"));
+        // Dessiner la barre de progression avec la couleur dynamique
+        paint.setColor(progressColor);
         canvas.drawArc(20, 20, width - 20, height - 20, 180, sweepAngle, false, paint);
     }
 }

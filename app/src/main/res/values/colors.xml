@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gris">#D3D3D3</color>
+    <!-- Base Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Lamp Metal Colors -->
+    <color name="lamp_metal">#424242</color>
+    <color name="lamp_metal_dark">#212121</color>
+    <color name="lamp_metal_light">#616161</color>
+
+    <!-- Night Mode Colors -->
+    <color name="bulb_night">#ff6b6b</color>
+    <color name="halo_night">#ff8787</color>
+    <color name="progress_night">#fa5252</color>
+    <color name="gradient_night_start">#1a1a2e</color>
+    <color name="gradient_night_end">#16213e</color>
+
+    <!-- Evening/Sunset Mode Colors -->
+    <color name="bulb_color">#ffd93d</color>
+
+    <color name="bulb_evening">#ffd93d</color>
+    <color name="halo_evening">#ffe066</color>
+    <color name="progress_evening">#fcc419</color>
+    <color name="gradient_evening_start">#fa709a</color>
+    <color name="gradient_evening_end">#fee140</color>
+
+    <!-- Day Mode Colors -->
+    <color name="bulb_day">#69db7c</color>
+    <color name="halo_day">#8ce99a</color>
+    <color name="progress_day">#51cf66</color>
+    <color name="gradient_day_start">#4facfe</color>
+    <color name="gradient_day_end">#00f2fe</color>
+
+    <!-- Progress Bar Colors -->
+    <color name="progress_background">#20FFFFFF</color>
+    <color name="progress_background_dark">#15FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="text_disabled">#66FFFFFF</color> <!-- 40% white -->
+
+    <!-- Transparent Colors for Overlays -->
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent_white">#80FFFFFF</color>
+    <color name="semi_transparent_black">#80000000</color>
+
+    <!-- Status Colors -->
+    <color name="error">#ff4d4d</color>
+    <color name="warning">#ffcc00</color>
+    <color name="success">#00cc66</color>
+
+    <!-- Additional UI Colors -->
+    <color name="card_background">#2D2D2D</color>
+    <color name="card_background_light">#3D3D3D</color>
+    <color name="shadow_color">#40000000</color>
 </resources>

@@ -1,34 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LightLayout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lightSensorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/brightnessLabel"
+
+    <!-- Card Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/gradientBackground"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Lamp Container -->
+            <FrameLayout
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="32dp">
+
+                <!-- Lamp Base -->
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/lamp_base_shape" />
+
+                <!-- Lamp Stand -->
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="128dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/lamp_metal" />
+
+                <!-- Lamp Head -->
+                <View
+                    android:layout_width="128dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="144dp"
+                    android:background="@drawable/lamp_head_shape" />
+
+                <!-- Light Bulb -->
+                <View
+                    android:id="@+id/lampBulb"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="160dp"
+                    android:background="@drawable/bulb_shape" />
+
+                <!-- Light Halo -->
+                <View
+                    android:id="@+id/lightHalo"
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="112dp"
+                    android:background="@drawable/light_halo_shape" />
+
+                <!-- Light Mode Icon -->
+                <ImageView
+                    android:id="@+id/lightModeIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="160dp" />
+            </FrameLayout>
+
+            <!-- Brightness Text -->
+            <TextView
+                android:id="@+id/brightnessTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <!-- Custom Progress Bar -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:background="@drawable/progress_background" />
+
+                <View
+                    android:id="@+id/progressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/progress_foreground" />
+
+                <!-- Scale Markers -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="0%"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="100%"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Niveau de luminosité"
-        android:textSize="20sp"
-        android:textColor="#333333"
-        android:layout_marginBottom="20dp" />
-
-    <TextView
-        android:id="@+id/brightnessTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="Luminosité : 0%"
-        android:textColor="#000000"
-        android:layout_marginBottom="20dp" />
-
-    <com.example.sensors.HalfCircleProgressBar
-        android:id="@+id/halfCircleProgressBar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp" />
-
-</LinearLayout>
+        android:background="@drawable/button"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+</androidx.constraintlayout.widget.ConstraintLayout>
