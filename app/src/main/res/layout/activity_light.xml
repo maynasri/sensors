@@ -5,6 +5,7 @@
     android:id="@+id/lightSensorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D3D3D3"
     android:padding="16dp">
 
 
@@ -26,6 +27,20 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp">
+            <!-- Lamp Base -->
+<!--            <View-->
+<!--                android:layout_width="80dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:layout_gravity="bottom|center_horizontal"-->
+<!--                android:background="@drawable/lamp_base_shape" />-->
+
+            <!-- Lamp Stand -->
+            <View
+                android:layout_width="16dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:background="@color/lamp_metal" />
 
             <!-- Lamp Container -->
             <FrameLayout
@@ -33,30 +48,8 @@
                 android:layout_height="300dp"
                 android:layout_marginBottom="32dp">
 
-                <!-- Lamp Base -->
-                <View
-                    android:layout_width="80dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:background="@drawable/lamp_base_shape" />
-
-                <!-- Lamp Stand -->
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="128dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/lamp_metal" />
 
                 <!-- Lamp Head -->
-                <View
-                    android:layout_width="128dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="144dp"
-                    android:background="@drawable/lamp_head_shape" />
-
-                <!-- Light Bulb -->
                 <View
                     android:id="@+id/lampBulb"
                     android:layout_width="96dp"
@@ -64,6 +57,16 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="160dp"
                     android:background="@drawable/bulb_shape" />
+                <View
+                    android:layout_width="128dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="144dp"
+                    android:background="@drawable/lamp_head_shape" />
+
+
+                <!-- Light Bulb -->
+
 
                 <!-- Light Halo -->
                 <View
@@ -143,10 +146,14 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        android:text="Logout"
+        android:backgroundTint="#B2B2B2"
+        android:drawableLeft="@drawable/logouticon"
+        android:drawablePadding="8dp"
+        android:text="Déconnecter"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

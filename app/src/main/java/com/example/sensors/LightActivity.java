@@ -38,7 +38,7 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_light);
 
-        // Initialize views
+        // Initialiser les éléments du activity_light.xml
         brightnessTextView = findViewById(R.id.brightnessTextView);
         progressBar = findViewById(R.id.progressBar);
         lampBulb = findViewById(R.id.lampBulb);
@@ -47,7 +47,7 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
         gradientBackground = findViewById(R.id.gradientBackground);
         logoutButton = findViewById(R.id.logoutButton);
 
-        // Set up logout button click listener
+        // Partie Logout
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,19 +57,17 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             }
         });
 
-        // Initialize sensor
+        // Initialiser le capteur
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        // Tester  la disponibilité du capteur lumière
         if (sensorManager != null) {
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         }
-
-        // Check sensor availability
         if (lightSensor == null) {
             brightnessTextView.setText("Light sensor not available");
         }
 
-        // Set initial state
-        updateLightState(50f); // Default state
+        updateLightState(50f);
     }
 
     @Override
@@ -98,17 +96,16 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not used but required by interface
     }
 
     private void updateLightState(float lux) {
-        // Calculate brightness percentage
+        // Calculer le niveau de luminosité
         int brightnessPercentage = (int) Math.min((lux / MAX_LUX) * 100, 100);
 
-        // Update brightness text
-        brightnessTextView.setText(String.format("Brightness: %d%%", brightnessPercentage));
+        // Mettre à jour le niveau de luminosité
+        brightnessTextView.setText(String.format("Niveau de luminosité: %d%%", brightnessPercentage));
 
-        // Update progress bar width
+        // Mettre à jour progress bar width
         ViewGroup.LayoutParams params = progressBar.getLayoutParams();
         int parentWidth = ((View) progressBar.getParent()).getWidth();
         if (parentWidth > 0) {
@@ -116,23 +113,26 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             progressBar.setLayoutParams(params);
         }
 
-        // Determine colors and resources based on brightness
+        // Déterminer les couleurs du lumière adéquates
         int bulbColor, haloColor, progressColor;
         int backgroundRes, iconRes;
-
+        //les différents modes de luminosité
         if (brightnessPercentage < 30) {
+            brightnessTextView.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
             bulbColor = ContextCompat.getColor(this, R.color.bulb_night);
             haloColor = ContextCompat.getColor(this, R.color.halo_night);
             progressColor = ContextCompat.getColor(this, R.color.progress_night);
             backgroundRes = R.drawable.gradient_night;
             iconRes = R.drawable.ic_moon;
         } else if (brightnessPercentage < 70) {
+            brightnessTextView.setTextColor(ContextCompat.getColor(this, R.color.lamp_metal_light));
             bulbColor = ContextCompat.getColor(this, R.color.bulb_evening);
             haloColor = ContextCompat.getColor(this, R.color.halo_evening);
             progressColor = ContextCompat.getColor(this, R.color.progress_evening);
             backgroundRes = R.drawable.gradient_evening;
             iconRes = R.drawable.ic_sunset;
         } else {
+            brightnessTextView.setTextColor(ContextCompat.getColor(this, R.color.semi_transparent_black));
             bulbColor = ContextCompat.getColor(this, R.color.bulb_day);
             haloColor = ContextCompat.getColor(this, R.color.halo_day);
             progressColor = ContextCompat.getColor(this, R.color.progress_day);
@@ -140,7 +140,7 @@ public class LightActivity extends AppCompatActivity implements SensorEventListe
             iconRes = R.drawable.ic_sun;
         }
 
-        // Update lamp colors with animation
+        // Mettre à jour les couleur de lampe avec animation
         setLampColor(bulbColor, haloColor);
         animateProgressBarColor(progressColor);
 
